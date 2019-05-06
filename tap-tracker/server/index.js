@@ -1,17 +1,42 @@
 const express = require('express')
 const consola = require('consola')
-const { Nuxt, Builder } = require('nuxt')
+const {
+  Nuxt,
+  Builder
+} = require('nuxt')
+const bodyParser = require('body-parser');
+const cors = require('cors');
+// const morgan = require('morgan');
 const app = express()
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
 config.dev = !(process.env.NODE_ENV === 'production')
 
+
+// use middleware
+// app.use(morgan('combined'))
+app.use(bodyParser.json())
+app.use(cors())
+
+//set up route
+
+app.get('/test', (req, res) => {
+  res.send({
+    message: 'test '
+  })
+})
+
+
+
 async function start() {
   // Init Nuxt.js
   const nuxt = new Nuxt(config)
 
-  const { host, port } = nuxt.options.server
+  const {
+    host,
+    port
+  } = nuxt.options.server
 
   // Build only in dev mode
   if (config.dev) {
@@ -24,11 +49,19 @@ async function start() {
   // Give nuxt middleware to express
   app.use(nuxt.render)
 
+
+
+
+
+
   // Listen the server
   app.listen(port, host)
   consola.ready({
-    message: `Server listening on http://${host}:${port}`,
+    message: `Server listening aa on http://${host}:${port}`,
     badge: true
   })
+
+
 }
+
 start()
