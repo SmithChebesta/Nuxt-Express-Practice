@@ -13,21 +13,18 @@ const app = express()
 let config = require('../nuxt.config.js')
 config.dev = !(process.env.NODE_ENV === 'production')
 
+// _________________________________________________________________________________________________________________
+
 
 // use middleware
-// app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
-
-//set up route
-
-app.get('/test', (req, res) => {
-  res.send({
-    message: 'test '
-  })
-})
+// app.use(morgan('combined'))
 
 
+//set up router
+app.use('/api', require('./api'))
+// _________________________________________________________________________________________________________________
 
 async function start() {
   // Init Nuxt.js
